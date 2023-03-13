@@ -72,10 +72,11 @@ beginner: int
 """
 def init_game():
     # tuple contenant la liste des cartes alliances du paquet
-    cartes_alliance = ("+2", "+3", "+4")
+    alliances = [(2,4),(3,2),(4,1)]    
     # tuple contenant la liste des cartes trahison du paquet
+    trahison = [(-1,3),(-2,4),(-3,2)]
     # dictionnaire permettant de connaitre le code couleur de la carte en fonction de sa valeur
-    
+    code_color_cards = {5: "bleu", 6: "rose", 7: "orange", 8: "jaune"}
     lst_cards = []
 
     # Ajout des cartes 5, 6, 7 et 8
@@ -136,7 +137,7 @@ def init_game():
     
     # Une fois la génération du paquet de cartes terminé, on le retourne
     return lst_cards, random.randint(1,2)
-lst_cards = init_game()
+# lst_cards = init_game()
 
 """Distribue les cartes pour chaque joueur et en mets 2 sur la table à la manche 1.
 Cette fonction aura pour but de distribuer 5 cartes à chaque joueur
@@ -155,21 +156,25 @@ lst_game, lst_player_1, lst_player_2
         - lst_player_1 : contenant les 5 cartes du joueur 1
         - lst_player_2 : contenant les 5 cartes du joueur 2
 """
-def to_deal(lst_game, round):
-    lst_player_1 = []; lst_player_2 = []; lst_game = []
-
-    # Distribuez 5 cartes à chaque joueur
+def to_deal(round):
+    lst_cards, starting_player = init_game()
+    lst_game = []
+    lst_player_1 = []
+    lst_player_2 = []
+    
     for i in range(5):
-        lst_player_1.append(lst_cards[i])
-        lst_player_2.append(lst_cards[i + 5])
-    del lst_cards[:10]
-    # to_deal(,1)
-    # On distribue 2 cartes sur la table uniquement pour la première manche
-    
-        # Distribuez 2 cartes face visible
+        lst_player_1.append(lst_cards.pop())
+        lst_player_2.append(lst_cards.pop())
         
-    
+    if round == 1:
+        for i in range(2):
+            lst_game.append(lst_cards.pop())
+
     return lst_game, lst_player_1, lst_player_2
+lst_game, lst_player_1, lst_player_2 = to_deal(1)
+print("Tapis : ", lst_game)
+print("Main du joueur 1 : ", lst_player_1)
+print("Main du joueur 2 : ", lst_player_2)
 
 """Affiche le jeu.
 Cette procédure affiche les cartes de la table ainsi que les cartes ramassées par les joueurs
