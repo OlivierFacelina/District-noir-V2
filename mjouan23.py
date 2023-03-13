@@ -31,7 +31,7 @@ def init_game():
     # tuple content la liste des villes
     city = ('Docks','Commissariat','Mairie')
     # dictionnaire permettant de connaitre le code couleur de la carte en fonction de sa valeur
-    code_color_cards = {5: "bleu32", 6: "rose206", 7: "orange208", 8: "jaune220"}
+    code_color_cards = {5: "blue", 6: "pink", 7: "orange", 8: "yellow"}
     lst_cards = []
 
     # Ajout des cartes 5, 6, 7 et 8
@@ -127,8 +127,8 @@ def display_game(round, lst_game, lst_collecting_cards_1, lst_collecting_cards_2
 
     # Afficher la main du joueur qui doit jouer
     print(f"C'est au tour du joueur {num_player}")
-    print(f"Vos cartes {lst_player_1}")
-print(display_game(1,lst_game,7,7,1))
+    print(f"Vos cartes {lst_player}")
+print(display_game(1,lst_game,7,7,1,lst_player_1))
 
 """Lance un tour de jeu.
 Cette fonction aura pour but de lancer le tour d'un joueur, elle devra :
@@ -159,32 +159,49 @@ lst_game, lst_player, lst_collecting_cards, take
         - take : booléen permettant de savoir si le joueur qui est en train de jouer à déjà ramassé durant la manche ou non mis à jour
 """
 def to_play(lst_game, num_player, lst_player, lst_collecting_cards, player_take):
-    
+    lst_collecting_cards = []
     # On converti la liste des cartes de la main du joueur en liste extrayant que la valeur des cartes
     
     # Tant que la saisie diffère d'une carte de la main ou qu'elle est différente de 0, on refait saisir le joueur
     while True:
-        # Demander au joueur de saisie la valeur d'une carte de sa main ou de saisir la chaine "take" s'il souhaite prendre et qu'il n'a pas encore pris durant cette manche
-        
+        # Demander au joueur de saisir la valeur d'une carte de sa main ou de saisir la chaine "take" s'il souhaite prendre et qu'il n'a pas encore pris durant cette manche
+        action = input("Veux-tu poser une carte (Poser) ou prendre les 5 dernières cartes (Prendre) ?")
         # Si le joueur décide de joueur une carte de sa main
-
+        if action == "Poser":
             # on retire la carte de sa main et on l'ajouter aux cartes de la table
-            
+            card = int(input("Quelle carte veux-tu poser ?"))
+            if card in lst_player:
+                lst_game.append(card)
+                lst_player.remove(card)
             break
         # Sinon si le joueur décide de prendre les cartes de la table s'il n'a pas déjà pris durant cette manche et qu'il y a au moins 1 carte sur la table
-        
-            # Si le jeu contient moins de 5 cartes, le joueur ramasse toutes les cartes de la table
-
-                # On ajoute les cartes prise à ses carte ramassées et on les retire de la table de jeu
-                
-            # On vérifie si le joueur possède 3 carte cité
+        elif action == "Prendre" and len(lst_game) > 0 and player_take == False:
             
+            # Si le jeu contient moins de 5 cartes, le joueur ramasse toutes les cartes de la table
+            if len(lst_game) < 5:
+                card = lst_game
+                lst_collecting_cards.append(card)
+                lst_game = []
+            else:
+                # Sinon, le joueur ne peut prendre que les 5 dernières cartes de la table
+                last_cards = len(lst_game) - 1
+                for i in range(5):
+                    card = lst_game[last_cards]
+                    lst_game.remove(card)
+                    lst_collecting_cards.append(card)
+                    last_cards -= 1
+
+            # On vérifie si le joueur possède 3 carte cité
+            if "Commissariat" in lst_collecting_cards and "Docks" in lst_collecting_cards and "Mairie" in lst_collecting_cards:
+                print("Bien joué tu as les 3 cités, tu as gagné !")
             
             # Ne pas oublié de passer le drapeau permettant de savoir s'il a pris durant cette manche à True
-            
+            player_take = True
+
             break
 
     return lst_game, lst_player, lst_collecting_cards, player_take
+print(to_play(lst_game,1,lst_player_1,7,False))
 
 """Vérifie si le joueur ne possède pas 3 cartes cités.
 Cette fonction aura pour but vérifier si le joueur qui vient de ramasser des cartes ne possède pas 3 cartes cités,
