@@ -28,6 +28,8 @@ def init_game():
     alliances = (+2, +2, +2, +2, +3, +3, +4)
     # tuple contenant la liste des cartes trahison du paquet
     treasons = (-1, -1, -1, -2, -2, -2, -2, -3, -3, -3)
+    # tuple content la liste des villes
+    city = ('Docks','Commissariat','Mairie')
     # dictionnaire permettant de connaitre le code couleur de la carte en fonction de sa valeur
     code_color_cards = {5: "bleu32", 6: "rose206", 7: "orange208", 8: "jaune220"}
     lst_cards = []
@@ -37,8 +39,8 @@ def init_game():
         for j in range(i):
             lst_cards.append(i)
     # Ajout des cartes "ville"
-    for i in range(1, 4):
-        lst_cards.append((i, 0))
+    for i in city:
+        lst_cards.append(i)
     # Ajout de cartes "alliance"
     for i in alliances:
         lst_cards.append(i)
