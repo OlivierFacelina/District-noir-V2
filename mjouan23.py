@@ -201,7 +201,9 @@ def to_play(lst_game, num_player, lst_player, lst_collecting_cards, player_take)
             break
 
     return lst_game, lst_player, lst_collecting_cards, player_take
-print(to_play(lst_game,1,lst_player_1,7,False))
+lst_param_collectings_cards = []
+lst_game, lst_player, lst_collecting_cards, player_take = to_play(lst_game,1,lst_player_1,lst_param_collectings_cards,False)
+# print(lst_game,lst_player,lst_collecting_cards,player_take)
 
 """Vérifie si le joueur ne possède pas 3 cartes cités.
 Cette fonction aura pour but vérifier si le joueur qui vient de ramasser des cartes ne possède pas 3 cartes cités,
@@ -221,13 +223,15 @@ Aucun
 def check_three_cities(num_player, lst_collecting_cards):
     nb_cities = 0
     # On boucle sur les cartes ramassées du joueur
-    
+    for card in lst_collecting_cards:
         # Si la carte a pour valeur (inutile de retirer le code couleur car les cartes cités n'en possède pas) le nom d'une des 3 cités
-        
+        if card in ['Commissariat','Docks','Mairie']:
             # si c'est le cas on incrémente un compteur
-
+            nb_cities += 1
     # Si 3 cartes cités sont comptés on appelle la fonction end_game
-    
+    if nb_cities == 3:
+        end_game(num_player)
+print(check_three_cities(1,lst_collecting_cards))
 
 """Regroupe et Compte les cartes ramassées par un joueur.
 Cette fonction aura pour but de regrouper les cartes de même valeur et de les compter. Ce qui simplifira le comptage des points.
@@ -248,14 +252,20 @@ def get_group_cards(lst_collecting_cards):
     # Avant de compter les cartes, on retire le code couleur des cartes
     
     # On boucle sur toutes les cartes
-    
+    for card in lst_collecting_cards:
         # Si les cartes sont différentes des cartes cités on les ajoute au dictionnaire
-        
+        if card != "Commissariat" and card != "Docks" and card != "Mairie":
+            lst_group_cards.append(card)
+            print(f"Ouiii : {lst_group_cards}")
             # Si la valeur de la carte a déjà été inséré dans le dictionnaire, on incrémente sa quantité
-            
+            if card in lst_group_cards:
+                lst_group_cards[card] += 1
             # Sinon on l'ajoute dans le dictionnaire
+            lst_group_cards[card] = 1
+
             
     return lst_group_cards
+print(get_group_cards(lst_collecting_cards))
 
 """Calcule les points
 Cette fonction aura pour but de calculer les points à partir du dictionnaire regroupant les cartes. Le comptage se fera selon les règles suivantes :
