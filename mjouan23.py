@@ -24,56 +24,27 @@ def get_lst_cards_value(lst_cards_with_color):
     return lst_cards_value
 
 def init_game():
-    # tuple contenant la liste des cartes alliances du paquet
-    alliances = [(2,4),(3,2),(4,1)]    
+     # tuple contenant la liste des cartes alliances du paquet
+    alliances = (+2, +2, +2, +2, +3, +3, +4)
     # tuple contenant la liste des cartes trahison du paquet
-    trahison = [(-1,3),(-2,4),(-3,2)]
+    treasons = (-1, -1, -1, -2, -2, -2, -2, -3, -3, -3)
     # dictionnaire permettant de connaitre le code couleur de la carte en fonction de sa valeur
-    code_color_cards = {5: "bleu", 6: "rose", 7: "orange", 8: "jaune"}
+    code_color_cards = {5: "bleu32", 6: "rose206", 7: "orange208", 8: "jaune220"}
     lst_cards = []
 
     # Ajout des cartes 5, 6, 7 et 8
-    cartes_type = [5,6,7,8]
-
-    # Boucle pour ajouter autant de fois de carte que son type
-    for i in range(5):
-        lst_cards.append(cartes_type[0])
-    for i in range(6):
-        lst_cards.append(cartes_type[1])
-    for i in range(7):
-        lst_cards.append(cartes_type[2])
-    for i in range(8):
-        lst_cards.append(cartes_type[3])
-    # print(f"Les cartes soutien : {cartes_soutien}")
-    
+    for i in range(5, 9):
+        for j in range(i):
+            lst_cards.append(i)
     # Ajout des cartes "ville"
-    cartes_lieu = ["Lieu 1", "Lieu 2", "Lieu 3"]
-    for i in range(1):
-        lst_cards.append(cartes_lieu[0])
-    for i in range(1):
-        lst_cards.append(cartes_lieu[1])
-    for i in range(1):
-        lst_cards.append(cartes_lieu[2])
-    
+    for i in range(1, 4):
+        lst_cards.append((i, 0))
     # Ajout de cartes "alliance"
-    cartes_alliance = ["+2", "+3", "+4"]
-    for i in range(4):
-        lst_cards.append(cartes_alliance[0])
-    for i in range(2):
-        lst_cards.append(cartes_alliance[1])
-    for i in range(1):
-        lst_cards.append(cartes_alliance[2])
-    # print(cartes_alliance)
-
+    for i in alliances:
+        lst_cards.append(i)
     # Ajout de cartes "trahison"
-    cartes_trahison = ["-1", "-2", "-3"]
-    for i in range(3):
-        lst_cards.append(cartes_trahison[0])
-    for i in range(4):
-        lst_cards.append(cartes_trahison[1])
-    for i in range(2):
-        lst_cards.append(cartes_trahison[2])
-    # print(lst_cards)
+    for i in treasons:
+        lst_cards.append(i)
 
     # Mélangez les 45 cartes
     def melanger_cartes():
@@ -108,7 +79,6 @@ def to_deal(round):
 
     return lst_game, lst_player_1, lst_player_2
 lst_game, lst_player_1, lst_player_2 = to_deal(1)
-print("Tapis : ", lst_game)
 print("Main du joueur 1 : ", lst_player_1)
 print("Main du joueur 2 : ", lst_player_2)
 
@@ -142,16 +112,21 @@ def display_game(round, lst_game, lst_collecting_cards_1, lst_collecting_cards_2
     print(f'--------- Manche {round} ----------')
 
     # Afficher les cartes sur la table
+    print("Tapis : ", lst_game)
 
     # Afficher les cartes ramassées par le joueur 1
+    print("Joueur 1 a ramassé : ", lst_collecting_cards_1)
 
     # Afficher les cartes ramassées par le joueur 2
+    print("Joueur 2 a ramassé :", lst_collecting_cards_2)
 
     # Séparateur pour une meilleur visibilité
     print('\n------------------------------')
 
     # Afficher la main du joueur qui doit jouer
-    
+    print(f"C'est au tour du joueur {num_player}")
+    print(f"Vos cartes {lst_player_1}")
+print(display_game(1,lst_game,7,7,1))
 
 """Lance un tour de jeu.
 Cette fonction aura pour but de lancer le tour d'un joueur, elle devra :
