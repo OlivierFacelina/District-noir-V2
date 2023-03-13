@@ -133,7 +133,7 @@ def init_game():
         for i in range(3):
             lst_cards.remove(lst_cards[-1])
         return lst_cards
-    print(retirer_cartes_pioche())
+    print(f"Pioche du jeu après les 3 cartes retirées : {retirer_cartes_pioche()}")
     
     # Une fois la génération du paquet de cartes terminé, on le retourne
     return lst_cards, random.randint(1,2)
