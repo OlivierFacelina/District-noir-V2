@@ -80,30 +80,59 @@ def init_game():
 
     # Ajout des cartes 5, 6, 7 et 8
     cartes_type = [5,6,7,8]
-    cartes_soutien = []
 
     # Boucle pour ajouter autant de fois de carte que son type
     for i in range(5):
-        cartes_soutien.append(cartes_type[0])
+        lst_cards.append(cartes_type[0])
     for i in range(6):
-        cartes_soutien.append(cartes_type[1])
+        lst_cards.append(cartes_type[1])
     for i in range(7):
-        cartes_soutien.append(cartes_type[2])
+        lst_cards.append(cartes_type[2])
     for i in range(8):
-        cartes_soutien.append(cartes_type[3])
+        lst_cards.append(cartes_type[3])
     # print(f"Les cartes soutien : {cartes_soutien}")
     
     # Ajout des cartes "ville"
     cartes_lieu = ["Lieu 1", "Lieu 2", "Lieu 3"]
+    for i in range(1):
+        lst_cards.append(cartes_lieu[0])
+    for i in range(1):
+        lst_cards.append(cartes_lieu[1])
+    for i in range(1):
+        lst_cards.append(cartes_lieu[2])
     
     # Ajout de cartes "alliance"
+    cartes_alliance = ["+2", "+3", "+4"]
+    for i in range(4):
+        lst_cards.append(cartes_alliance[0])
+    for i in range(2):
+        lst_cards.append(cartes_alliance[1])
+    for i in range(1):
+        lst_cards.append(cartes_alliance[2])
+    # print(cartes_alliance)
 
     # Ajout de cartes "trahison"
-    cartes_trahison = ("-1", "-2", "-3")
+    cartes_trahison = ["-1", "-2", "-3"]
+    for i in range(3):
+        lst_cards.append(cartes_trahison[0])
+    for i in range(4):
+        lst_cards.append(cartes_trahison[1])
+    for i in range(2):
+        lst_cards.append(cartes_trahison[2])
+    # print(lst_cards)
 
     # Mélangez les 45 cartes
+    def melanger_cartes():
+        random.shuffle(lst_cards)
+        return lst_cards
+    melanger_cartes()
 
     # Retirer 3 cartes
+    def retirer_cartes_pioche():
+        for i in range(3):
+            lst_cards.remove(lst_cards[-1])
+        return lst_cards
+    print(retirer_cartes_pioche())
     
     # Une fois la génération du paquet de cartes terminé, on le retourne
     return lst_cards, random.randint(1,2)
