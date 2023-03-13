@@ -136,7 +136,7 @@ def init_game():
     
     # Une fois la génération du paquet de cartes terminé, on le retourne
     return lst_cards, random.randint(1,2)
-print(init_game())
+lst_cards = init_game()
 
 """Distribue les cartes pour chaque joueur et en mets 2 sur la table à la manche 1.
 Cette fonction aura pour but de distribuer 5 cartes à chaque joueur
@@ -156,10 +156,14 @@ lst_game, lst_player_1, lst_player_2
         - lst_player_2 : contenant les 5 cartes du joueur 2
 """
 def to_deal(lst_game, round):
-    lst_player_1 = []; lst_player_2 = []
+    lst_player_1 = []; lst_player_2 = []; lst_game = []
 
     # Distribuez 5 cartes à chaque joueur
-    
+    for i in range(5):
+        lst_player_1.append(lst_cards[i])
+        lst_player_2.append(lst_cards[i + 5])
+    del lst_cards[:10]
+    # to_deal(,1)
     # On distribue 2 cartes sur la table uniquement pour la première manche
     
         # Distribuez 2 cartes face visible
