@@ -74,3 +74,77 @@ lst_game, lst_player_1, lst_player_2
         - lst_player_1 : contenant les 5 cartes du joueur 1
         - lst_player_2 : contenant les 5 cartes du joueur 2
 """
+
+# FONCTION DISPLAY
+
+"""Affiche le jeu.
+Cette procédure affiche les cartes de la table ainsi que les cartes ramassées par les joueurs
+
+Parameters
+----------
+round : int
+    numéro du round en cours
+lst_game : list
+    Liste des cartes sur la table
+lst_collecting_cards_1 : list
+    Liste des cartes ramassées par le joueur 1
+lst_collecting_cards_2 : list
+    Liste des cartes ramassées par le joueur 2
+num_player : int
+    Numéro du joueur qui doit jouer
+lst_player: list
+    Liste des cartes du joueur qui doit jouer
+
+Returns
+-------
+Aucun
+"""
+
+# FONCTION TO_PLAY
+
+"""Lance un tour de jeu.
+Cette fonction aura pour but de lancer le tour d'un joueur, elle devra :
+- Si le joueur décide de poser une carte : mettre à jour les cartes de sa main
+- Si le joueur décide de ramasser : mettre à jour ses cartes ramassées et mettre à jour le booléen take
+- Dans les 2 cas : mettre à jour les cartes de la table
+
+Parameters
+----------
+lst_game : list
+    Liste des cartes sur la table
+num_player : int
+    Numéro du joueur qui est en train de jouer
+lst_player: list
+    Liste des cartes du joueur qui est en train de jouer
+lst_collecting_cards : list
+    Liste des cartes ramassées du joueur qui est en train de jouer
+player_take : Boolean
+    booléen permettant de savoir si le joueur qui est en train de jouer à déjà ramassé durant la manche ou non
+
+Returns
+-------
+lst_game, lst_player, lst_collecting_cards, take
+    Retourne 4 listes :
+        - lst_game : liste des cartes de la table mise à jour
+        - lst_player : liste des cartes du joueur qui est en train de jouer mise à jour
+        - lst_collecting_cards : liste des cartes ramassées du joueur qui est en train de jouer mise à jour
+        - take : booléen permettant de savoir si le joueur qui est en train de jouer à déjà ramassé durant la manche ou non mis à jour
+"""
+
+# FONCTION CHECK_CITIES
+
+"""Vérifie si le joueur ne possède pas 3 cartes cités.
+Cette fonction aura pour but vérifier si le joueur qui vient de ramasser des cartes ne possède pas 3 cartes cités,
+si c'est le cas, il faudra mettre fin à la partie tout de suite et le déclarer vainqueur
+
+Parameters
+----------
+num_player : int
+    Numéro du joueur qui est en train de jouer
+lst_collecting_cards : list
+    Liste des cartes ramassées du joueur pour laquelle on souhaite vérifier qu'il n'y a pas 3 cartes cités
+
+Returns
+-------
+Aucun
+"""
