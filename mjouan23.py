@@ -93,7 +93,7 @@ def init_game():
     # print(f"Les cartes soutien : {cartes_soutien}")
     
     # Ajout des cartes "ville"
-    cartes_lieu = ["Lieu 1", "Lieu 2", "Lieu 3"]
+    cartes_lieu = ["Docks", "Commissariat", "Mairie"]
     for i in range(1):
         lst_cards.append(cartes_lieu[0])
     for i in range(1):
@@ -122,20 +122,15 @@ def init_game():
     # print(lst_cards)
 
     # Mélangez les 45 cartes
-    def melanger_cartes():
-        random.shuffle(lst_cards)
-        return lst_cards
-    melanger_cartes()
+    random.shuffle(lst_cards)
 
     # Retirer 3 cartes
-    def retirer_cartes_pioche():
-        for i in range(3):
-            lst_cards.remove(lst_cards[-1])
-        return lst_cards
-    print(retirer_cartes_pioche())
+    for i in range(3):
+        del lst_cards[0]
     
     # Une fois la génération du paquet de cartes terminé, on le retourne
-    return lst_cards, random.randint(1,2)
+    return lst_cards
+
 lst_cards = init_game()
 
 """Distribue les cartes pour chaque joueur et en mets 2 sur la table à la manche 1.
@@ -160,15 +155,17 @@ def to_deal(lst_game, round):
 
     # Distribuez 5 cartes à chaque joueur
     for i in range(5):
-        lst_player_1.append(lst_cards[i])
-        lst_player_2.append(lst_cards[i + 5])
-    del lst_cards[:10]
+        lst_player_1.append(lst_cards[0])
+        del lst_cards[0]
+        lst_player_2.append(lst_cards[0])
+        del lst_cards[0]
     # to_deal(,1)
     # On distribue 2 cartes sur la table uniquement pour la première manche
-    
+    if round == 1:
         # Distribuez 2 cartes face visible
+        for i in range(2):
+            lst_game.append(lst_cards[0])
         
-    
     return lst_game, lst_player_1, lst_player_2
 
 """Affiche le jeu.
@@ -201,15 +198,19 @@ def display_game(round, lst_game, lst_collecting_cards_1, lst_collecting_cards_2
     print(f'--------- Manche {round} ----------')
 
     # Afficher les cartes sur la table
+    print(f"Tapis : {lst_game}.")
 
     # Afficher les cartes ramassées par le joueur 1
+    print(f"Cartes du joueur 1 : {lst_collecting_cards_1}.")
 
     # Afficher les cartes ramassées par le joueur 2
+    print(f"Cartes du joueur 2 : {lst_collecting_cards_2}.")
 
     # Séparateur pour une meilleur visibilité
     print('\n------------------------------')
 
     # Afficher la main du joueur qui doit jouer
+    print(f"Main du joueur {num_player} : {lst_player}.")
     
 
 """Lance un tour de jeu.
@@ -246,24 +247,32 @@ def to_play(lst_game, num_player, lst_player, lst_collecting_cards, player_take)
     
     # Tant que la saisie diffère d'une carte de la main ou qu'elle est différente de 0, on refait saisir le joueur
     while True:
-        # Demander au joueur de saisie la valeur d'une carte de sa main ou de saisir la chaine "take" s'il souhaite prendre et qu'il n'a pas encore pris durant cette manche
-        
-        # Si le joueur décide de joueur une carte de sa main
-
-            # on retire la carte de sa main et on l'ajouter aux cartes de la table
+        # Demander au joueur de saisir la valeur d'une carte de sa main ou de saisir la chaine "take" s'il souhaite prendre et qu'il n'a pas encore pris durant cette manche
+        print("Poser (valeur de votre carte) ou Prendre ('take')")
+        action = input("--> ")
+        # Si le joueur décide de jouer une carte de sa main
+        if lst_player.__contains__(action):
+            # on retire la carte de sa main et on l'ajoute aux cartes de la table
+            lst_game.append(lst_player[action])
+            del lst_player[action]
             
             break
         # Sinon si le joueur décide de prendre les cartes de la table s'il n'a pas déjà pris durant cette manche et qu'il y a au moins 1 carte sur la table
-        
+        elif action == 'take' and player_take == False and len(lst_game) > 0:
             # Si le jeu contient moins de 5 cartes, le joueur ramasse toutes les cartes de la table
-
+            if len(lst_game) < 5:
                 # On ajoute les cartes prise à ses carte ramassées et on les retire de la table de jeu
+                for i in range(len(lst_game)):
+                    lst_player.append(lst_game[0])
+                    del lst_game[0]
                 
             # On vérifie si le joueur possède 3 carte cité
+            if lst_player.__contains__("Docks", "Commisariat", "Mairie"):
+                print("GAGNE")
+                player_win = True
             
-            
-            # Ne pas oublié de passer le drapeau permettant de savoir s'il a pris durant cette manche à True
-            
+            # Ne pas oublier de passer le drapeau permettant de savoir s'il a pris durant cette manche à True
+            player_take = True
             break
 
     return lst_game, lst_player, lst_collecting_cards, player_take
@@ -286,12 +295,18 @@ Aucun
 def check_three_cities(num_player, lst_collecting_cards):
     nb_cities = 0
     # On boucle sur les cartes ramassées du joueur
-    
+    for i in range(len(lst_collecting_cards)):
         # Si la carte a pour valeur (inutile de retirer le code couleur car les cartes cités n'en possède pas) le nom d'une des 3 cités
-        
+        if lst_collecting_cards[i] == "Docks":
+            nb_cities += 1
+        if lst_collecting_cards[i] == "Commissariat":
+            nb_cities += 1
+        if lst_collecting_cards[i] == "Mairie":
             # si c'est le cas on incrémente un compteur
-
+            nb_cities += 1
     # Si 3 cartes cités sont comptés on appelle la fonction end_game
+    if nb_cities == 3:
+        end_game()
     
 
 """Regroupe et Compte les cartes ramassées par un joueur.
@@ -313,14 +328,19 @@ def get_group_cards(lst_collecting_cards):
     # Avant de compter les cartes, on retire le code couleur des cartes
     
     # On boucle sur toutes les cartes
-    
+    for i in range(len(lst_collecting_cards)):
         # Si les cartes sont différentes des cartes cités on les ajoute au dictionnaire
-        
+        if lst_collecting_cards[i] != "Docks" or lst_collecting_cards[i] != "Commissariat" or lst_collecting_cards[i] != "Mairie":
             # Si la valeur de la carte a déjà été inséré dans le dictionnaire, on incrémente sa quantité
-            
+            if lst_group_cards.__contains__(lst_collecting_cards[i]):
+                lst_group_cards[lst_collecting_cards[i]] += 1
             # Sinon on l'ajoute dans le dictionnaire
-            
+            else:
+                # lst_group_cards.append(lst_collecting_cards[i])
+                lst_group_cards[lst_collecting_cards[i]] = 1
     return lst_group_cards
+
+print(get_group_cards(lst_collecting_cards = [5,8,5,"+2", "-1"]))
 
 """Calcule les points
 Cette fonction aura pour but de calculer les points à partir du dictionnaire regroupant les cartes. Le comptage se fera selon les règles suivantes :
@@ -420,6 +440,8 @@ players = {"lst_player_1" : [], "lst_player_2" : [], "lst_collecting_cards_1" : 
 
 #-------------------- Script principal ----------------
 # Initilisation d'une partie
+lst_cards = init_game()
+print(lst_cards)
 
 # Boucler pour lancer 4 manches
 
