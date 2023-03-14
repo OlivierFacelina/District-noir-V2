@@ -5,6 +5,25 @@ import os
 
 #-------------------- Fonctions ----------------
 
+"""Concaténer une chaine à un code couleur.
+Cette fonction sert à retourner une chaine en lui appliquant une couleur en fonction d'un code 
+Codes Couleur utile pour l'exercice
+Blue : 32 | Orange : 208 | Pink : 206 | Yellow : 220 | Green : 28 | Red : 196
+
+Parameters
+----------
+pstr : string
+    Chaine à colorer
+pcolor : int
+    code couleur (cf. chiffre ci-dessus)
+
+Returns
+-------
+string
+    la chaine en entrée concaténé avec la couleur, de type : 
+        Code couleur : "\x1b[38;5;33m" + {valeur} + Code permettant de remttre la couleur intiale "\x1b[0;0m"
+"""
+
 def set_color(pstr, pcolor):
     
     num1 = str(pcolor)
@@ -141,13 +160,12 @@ def to_play(lst_game, num_player, lst_player, lst_collecting_cards, player_take)
                     lst_collecting_cards.append(card)
                     last_cards -= 1
 
-            # On vérifie si le joueur possède 3 carte cité
+            # On vérifie si le joueur possède 3 carte citées
             if "Commissariat" in lst_collecting_cards and "Docks" in lst_collecting_cards and "Mairie" in lst_collecting_cards:
-                print("Bien joué tu as les 3 cités, tu as gagné !")
+                check_three_cities(num_player,lst_collecting_cards)
             
-            # Ne pas oublié de passer le drapeau permettant de savoir s'il a pris durant cette manche à True
+            # Ne pas oublier de passer le drapeau permettant de savoir s'il a pris durant cette manche à True
             player_take = True
-
             break
 
     return lst_game, lst_player, lst_collecting_cards, player_take
@@ -187,18 +205,19 @@ def get_group_cards(lst_collecting_cards):
     # Avant de compter les cartes, on retire le code couleur des cartes
     
     # On boucle sur toutes les cartes
-    for card in lst_collecting_cards:
+    for i in range(len(lst_collecting_cards)):
         # Si les cartes sont différentes des cartes cités on les ajoute au dictionnaire
-        if card != "Commissariat" and card != "Docks" and card != "Mairie":
-            card_tuple = tuple(card)
+        if lst_collecting_cards[i] != "Docks" or lst_collecting_cards[i] != "Commissariat" or lst_collecting_cards[i] != "Mairie":
             # Si la valeur de la carte a déjà été inséré dans le dictionnaire, on incrémente sa quantité
-            if card_tuple in lst_group_cards:
-                lst_group_cards[card_tuple] += 1
+            if lst_group_cards.__contains__(lst_collecting_cards[i]):
+                lst_group_cards[lst_collecting_cards[i]] += 1
             # Sinon on l'ajoute dans le dictionnaire
-            lst_group_cards[card_tuple] = 1
-            
+            else:
+                # lst_group_cards.append(lst_collecting_cards[i])
+                lst_group_cards[lst_collecting_cards[i]] = 1
     return lst_group_cards
-print(get_group_cards(lst_collecting_cards))
+
+print(get_group_cards(lst_collecting_cards = [5,8,5,"+2", "-1"]))
 
 """Calcule les points
 Cette fonction aura pour but de calculer les points à partir du dictionnaire regroupant les cartes. Le comptage se fera selon les règles suivantes :
