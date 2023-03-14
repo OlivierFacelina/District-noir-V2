@@ -336,11 +336,10 @@ def get_group_cards(lst_collecting_cards):
                 lst_group_cards[lst_collecting_cards[i]] += 1
             # Sinon on l'ajoute dans le dictionnaire
             else:
-                # lst_group_cards.append(lst_collecting_cards[i])
                 lst_group_cards[lst_collecting_cards[i]] = 1
     return lst_group_cards
 
-print(get_group_cards(lst_collecting_cards = [5,8,5,"+2", "-1"]))
+get_group_cards(lst_collecting_cards = [5,8,5,5,5,8,"+2","+2", "-1"])
 
 """Calcule les points
 Cette fonction aura pour but de calculer les points à partir du dictionnaire regroupant les cartes. Le comptage se fera selon les règles suivantes :
@@ -367,27 +366,70 @@ def get_scoring(group_cards_1, group_cards_2):
     score_player_1 = 0
     score_player_2 = 0
 
-    # SOUTIEN (cartes de 5 à 8) : La majorité marque un nombre de points égal au chiffre représenté sur la carte SOUTIEN 
-    # En cas d'égalité aucun joueur ne remporte les points
-    
+    # SOUTIEN (cartes de 5 à 8) : La majorité marque un nombre de points égal au chiffre représenté sur la carte SOUTIEN
+    for i in range(5,9):
+        # Si le joueur ne possède pas une des 4 cartes SOUTIEN
+        if group_cards_1.__contains__(i) == False:
+            if group_cards_2.__contains__(i) == True:
+                score_player_2 += i
+        elif group_cards_2.__contains__(i) == False:
+            if group_cards_1.__contains__(i) == True:
+                score_player_1 += i
+        # En cas d'égalité aucun joueur ne remporte les points
+        elif group_cards_1[i] == group_cards_2[i]:
+            print("Egalité")
+        # Si le joueur à une plus grande quantité de carte SOUTIEN
+        elif group_cards_1[i] > group_cards_2[i]:
+            score_player_1 += i
+        else:
+            score_player_2 += i
+
 
     # SOUTIEN (cartes de 5 à 8) : 4 SOUTIENS différents repporte 5 points
+
     # Calcul pour le Joueur 1
-    
+    if group_cards_1.__contains__(5) and group_cards_1.__contains__(6) and group_cards_1.__contains__(7) and group_cards_1.__contains__(8):
+        min_value = 10
+        for i in range(5,9):
+            if group_cards_1[i] < min_value:
+                min_value = group_cards_1[i]
+        score_player_1 += 5 * min_value
     # Calcul pour le Joueur 2
+    if group_cards_2.__contains__(5) and group_cards_2.__contains__(6) and group_cards_2.__contains__(7) and group_cards_2.__contains__(8):
+        min_value = 10
+        for i in range(5,9):
+            if group_cards_2[i] < min_value:
+                min_value = group_cards_2[i]
+        score_player_2 += 5 * min_value
 
     # ALLIANCE et TRAHISON : Additionner et soustraire leur valeur
-
+    alliance_cards = ["+2", "+3", "+4"]
+    treason_cards = ["-1", "-2", "-3"]
+    for i in alliance_cards:
         # ALLIANCE Joueur 1
-        
+        if group_cards_1.__contains__(i):
+            i = int(i)
+            score_player_1 += i
         # ALLIANCE Joueur 2
-        
-    
+        if group_cards_2.__contains__(i):
+            i = int(i)
+            score_player_2 += i
+
+    for i in treason_cards:
         # TRAHISON Joueur 1
-    
+        if group_cards_1.__contains__(i):
+            i = int(i)
+            score_player_1 += i
         # TRAHISON Joueur 2
+        if group_cards_2.__contains__(i):
+            i = int(i)
+            score_player_2 += i * group_cards_2[i]
 
     return score_player_1, score_player_2
+
+lst_player_1 = {5:4, 6:1, 8:3, "-2":1, "+4":2, "+5":1}
+lst_player_2 = {5:3, 6:2, 7:1, 8:3}
+print(get_scoring(lst_player_1,lst_player_2))
 
 """Retourne le vainqueur
 Compare le score du joueur 1 et du joueur 2 et retourne le vainqueur.
