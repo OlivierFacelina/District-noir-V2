@@ -25,7 +25,6 @@ string
 """
 
 def set_color(pstr, pcolor):
-    
     num1 = str(pcolor)
     if pcolor % 16 == 0:
         return(f"\033[38;5;{num1}m{pstr}\033[0;0m")
@@ -50,13 +49,17 @@ def init_game():
     # tuple content la liste des villes
     city = ('Docks','Commissariat','Mairie')
     # dictionnaire permettant de connaitre le code couleur de la carte en fonction de sa valeur
-    code_color_cards = {5: "blue", 6: "pink", 7: "orange", 8: "yellow"}
+    code_color_cards = {5: 32, 
+                        6: 208, 
+                        7: 206, 
+                        8: 196}
     lst_cards = []
 
     # Ajout des cartes 5, 6, 7 et 8
     for i in range(5, 9):
         for j in range(i):
-            lst_cards.append(i)
+            lst_cards.append(set_color(str(i), code_color_cards[i]))
+            
     # Ajout des cartes "ville"
     for i in city:
         lst_cards.append(i)
@@ -99,9 +102,9 @@ def to_deal(round):
             lst_game.append(lst_cards.pop())
 
     return lst_game, lst_player_1, lst_player_2
-lst_game, lst_player_1, lst_player_2 = to_deal(1)
-print("Main du joueur 1 : ", lst_player_1)
-print("Main du joueur 2 : ", lst_player_2)
+# lst_game, lst_player_1, lst_player_2 = to_deal(1)
+# print("Main du joueur 1 : ", lst_player_1)
+# print("Main du joueur 2 : ", lst_player_2)
 
 def display_game(round, lst_game, lst_collecting_cards_1, lst_collecting_cards_2, num_player = 0, lst_player = []):
     # Efface la console
@@ -125,7 +128,7 @@ def display_game(round, lst_game, lst_collecting_cards_1, lst_collecting_cards_2
     # Afficher la main du joueur qui doit jouer
     print(f"C'est au tour du joueur {num_player}")
     print(f"Vos cartes {lst_player}")
-print(display_game(1,lst_game,7,7,1,lst_player_1))
+# print(display_game(1,lst_game,7,7,1,lst_player_1))
 
 def to_play(lst_game, num_player, lst_player, lst_collecting_cards, player_take):
     lst_collecting_cards = []
@@ -169,9 +172,9 @@ def to_play(lst_game, num_player, lst_player, lst_collecting_cards, player_take)
             break
 
     return lst_game, lst_player, lst_collecting_cards, player_take
-lst_param_collectings_cards = []
-lst_game, lst_player, lst_collecting_cards, player_take = to_play(lst_game,1,lst_player_1,lst_param_collectings_cards,False)
-print(lst_game,lst_player,lst_collecting_cards,player_take)
+# lst_param_collectings_cards = []
+# lst_game, lst_player, lst_collecting_cards, player_take = to_play(lst_game,1,lst_player_1,lst_param_collectings_cards,False)
+# print(lst_game,lst_player,lst_collecting_cards,player_take)
 
 def check_three_cities(num_player, lst_collecting_cards):
     nb_cities = 0
@@ -184,7 +187,7 @@ def check_three_cities(num_player, lst_collecting_cards):
     # Si 3 cartes cités sont comptés on appelle la fonction end_game
     if nb_cities == 3:
         end_game(num_player)
-print(check_three_cities(1,lst_collecting_cards))
+# print(check_three_cities(1,lst_collecting_cards))
 
 """Regroupe et Compte les cartes ramassées par un joueur.
 Cette fonction aura pour but de regrouper les cartes de même valeur et de les compter. Ce qui simplifira le comptage des points.
@@ -217,7 +220,7 @@ def get_group_cards(lst_collecting_cards):
                 lst_group_cards[lst_collecting_cards[i]] = 1
     return lst_group_cards
 
-get_group_cards(lst_collecting_cards = [5,8,5,5,5,8,"+2","+2", "-1"])
+# get_group_cards(lst_collecting_cards = [5,8,5,5,5,8,"+2","+2", "-1"])
 
 """Calcule les points
 Cette fonction aura pour but de calculer les points à partir du dictionnaire regroupant les cartes. Le comptage se fera selon les règles suivantes :
@@ -263,7 +266,7 @@ def get_scoring(group_cards_1, group_cards_2):
             score_player_2 += i
 
 
-    # SOUTIEN (cartes de 5 à 8) : 4 SOUTIENS différents repporte 5 points
+    # SOUTIEN (cartes de 5 à 8) : 4 SOUTIENS différents remporte 5 points
 
     # Calcul pour le Joueur 1
     if group_cards_1.__contains__(5) and group_cards_1.__contains__(6) and group_cards_1.__contains__(7) and group_cards_1.__contains__(8):
@@ -286,7 +289,7 @@ def get_scoring(group_cards_1, group_cards_2):
     for i in alliance_cards:
         # ALLIANCE Joueur 1
         if group_cards_1.__contains__(i):
-            i = int(i)
+            i = int(i) 
             score_player_1 += i
         # ALLIANCE Joueur 2
         if group_cards_2.__contains__(i):
@@ -301,13 +304,13 @@ def get_scoring(group_cards_1, group_cards_2):
         # TRAHISON Joueur 2
         if group_cards_2.__contains__(i):
             i = int(i)
-            score_player_2 += i * group_cards_2[i]
+            score_player_2 += i
 
     return score_player_1, score_player_2
 
 lst_player_1 = {5:4, 6:1, 8:3, "-2":1, "+4":2, "+5":1}
 lst_player_2 = {5:3, 6:2, 7:1, 8:3}
-print(get_scoring(lst_player_1,lst_player_2))
+# get_scoring(lst_player_1,lst_player_2)
 
 """Retourne le vainqueur
 Compare le score du joueur 1 et du joueur 2 et retourne le vainqueur.
@@ -331,12 +334,50 @@ Returns
 """
 def get_winner(score_player_1, score_player_2, group_cards_1, group_cards_2):
     # Le score du joueur 1 est supérieur au score du joueur 2 => le joueur 1 gagne
-
+    if score_player_1 > score_player_2 :
+        print("Le joueur 1 a gagné !")
     # Le score du joueur 1 est inférieur au score du joueur 2 => le joueur 2 gagne
-
+    elif score_player_2 > score_player_1:
+        print("Le joueur 2 a gagné !")
     # Sinon égalité
-
+    else : 
         # En cas d'égalité, le joueur ayant le plus de soutien de valeur 8 l'emporte, puis en cas de nouvelle égalité le joueur ayant le plus de soutien de valeur 7 l'emporte etc.
+        if group_cards_1._contains_(8) < group_cards_2._contains_(8):
+            print("Bien joué, le joueur 1 a plus de 8 !")
+
+        elif group_cards_2._contains_(8) < group_cards_1._contains_(8):
+                print("Bien joué, le joueur 2 a plus de 8 !")
+        
+        elif group_cards_1._contains_(8) == group_cards_2._contains_(8):
+            print("Encore une égalité !")
+        
+        elif group_cards_1._contains_(7) < group_cards_2._contains_(7) :
+                print("Bien joué, le joueur 1 a plus de 7 !")
+        
+        elif group_cards_2._contains_(7) < group_cards_1._contains_(7):
+                print("Bien joué, le joueur 2 a plus de 7 !")
+        
+        elif group_cards_1._contains_(7) == group_cards_2._contains_(7):
+            print("Encore une égalité !")
+        
+        elif group_cards_1._contains_(6) < group_cards_2._contains_(6) :
+                print("Bien joué, le joueur 1 a plus de 6 !")
+        
+        elif group_cards_2._contains_(6) < group_cards_1._contains_(6):
+                print("Bien joué, le joueur 2 a plus de 6 !")
+        
+        elif group_cards_1._contains_(6) == group_cards_2._contains_(6):
+            print("Encore une égalité !")
+
+        elif group_cards_1._contains_(5) < group_cards_2._contains_(5) :
+                print("Bien joué, le joueur 1 a plus de 5 !")
+        
+        elif group_cards_2._contains_(5) < group_cards_1._contains_(5):
+                print("Bien joué, le joueur 2 a plus de 5 !")
+        
+        else:
+                print("Vous avez fait égalité !")
+
     exit()
 
 """Affiche le vainqueur
@@ -360,29 +401,45 @@ players = {"lst_player_1" : [], "lst_player_2" : [], "lst_collecting_cards_1" : 
 
 #-------------------- Script principal ----------------
 # Initilisation d'une partie
+init_game()
 
 # Boucler pour lancer 4 manches
-
+for i in range(4):
+    
     # Distribution des cartes pour chaque manche
-
+    to_deal(1)
+    
     # Boucler tant que les joueurs possèdent encore des cartes en main et qu'ils n'ont pas tous les 2 pris de cartes sur la table
-        
+    while len(players["lst_player_1"]) > 0 or len(players["lst_player_2"]) > 0 or players["take_player_1"] == False or players["take_player_2"] == False:
+
         # Ordre des tours de jeu en fonction du joueur qui coommence la manche
-        
+        # player_order = get_player_order()
 
         # Boucler pour les 2 joueurs
-
+        for player in players:
             # Afficher le jeu
-            
-            # Faire jouer un joueur
-            
+            display_game()
 
-    # Remettre la drapeau take des players False
+            # Faire jouer un joueur
+            to_play()
+
+# Remettre la drapeau take des players False
+players["take_player_1"] = False
+players["take_player_2"] = False
 
 
 #-------------------- Fin de partie ----------------
 # regrouper les cartes des joueurs pour simplifier le calcul des points
+get_group_cards()
 
 # Calcul des points pour les 2 joueurs
+player_1_points = get_scoring(players["player_1"])
+player_2_points = get_scoring(players["player_2"])
 
 # en fonction du nombre de points des joueurs on renvoie le vainqueur ou on départage en cas d'égalité
+if group_cards_1 > player_2_points:
+    print("Le joueur 1 a gagné !")
+elif player_2_points > player_1_points:
+    print("Le joueur 2 a gagné !")
+else:
+    print("Match nul !")
