@@ -391,12 +391,51 @@ Returns
 """
 def get_winner(score_player_1, score_player_2, group_cards_1, group_cards_2):
     # Le score du joueur 1 est supérieur au score du joueur 2 => le joueur 1 gagne
-
+    if score_player_1 > score_player_2 :
+        print("Le joueur 1 a gagné !")
     # Le score du joueur 1 est inférieur au score du joueur 2 => le joueur 2 gagne
-
+    elif score_player_2 > score_player_1:
+        print("Le joueur 2 a gagné !")
     # Sinon égalité
-
+    else : 
+        print("Vous avez fait une égalité !")
         # En cas d'égalité, le joueur ayant le plus de soutien de valeur 8 l'emporte, puis en cas de nouvelle égalité le joueur ayant le plus de soutien de valeur 7 l'emporte etc.
+        if group_cards_1._contains_(8) < group_cards_2._contains_(8):
+            print("Bien joué, le joueur 1 a plus de 8 !")
+
+        elif group_cards_2._contains_(8) < group_cards_1._contains_(8):
+                print("Bien joué, le joueur 2 a plus de 8 !")
+        
+        elif group_cards_1._contains_(8) == group_cards_2._contains_(8):
+            print("Encore une égalité !")
+        
+        elif group_cards_1._contains_(7) < group_cards_2._contains_(7) :
+                print("Bien joué, le joueur 1 a plus de 7 !")
+        
+        elif group_cards_2._contains_(7) < group_cards_1._contains_(7):
+                print("Bien joué, le joueur 2 a plus de 7 !")
+        
+        elif group_cards_1._contains_(7) == group_cards_2._contains_(7):
+            print("Encore une égalité !")
+        
+        elif group_cards_1._contains_(6) < group_cards_2._contains_(6) :
+                print("Bien joué, le joueur 1 a plus de 6 !")
+        
+        elif group_cards_2._contains_(6) < group_cards_1._contains_(6):
+                print("Bien joué, le joueur 2 a plus de 6 !")
+        
+        elif group_cards_1._contains_(6) == group_cards_2._contains_(6):
+            print("Encore une égalité !")
+
+        elif group_cards_1._contains_(5) < group_cards_2._contains_(5) :
+                print("Bien joué, le joueur 1 a plus de 5 !")
+        
+        elif group_cards_2._contains_(5) < group_cards_1._contains_(5):
+                print("Bien joué, le joueur 2 a plus de 5 !")
+        
+        else:
+                print("Vous avez fait égalité !")
+
     exit()
 
 """Affiche le vainqueur
@@ -437,8 +476,8 @@ while nbr_round <=4:
             # Afficher le jeu
     to_play(lst_game, num_player, lst_player, lst_collecting_cards, player_take)
             # Faire jouer un joueur
-            
-
+                                                        
+ 
     # Remettre la drapeau take des players False
     player_take = False
 
