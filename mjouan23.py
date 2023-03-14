@@ -420,29 +420,32 @@ players = {"lst_player_1" : [], "lst_player_2" : [], "lst_collecting_cards_1" : 
 
 #-------------------- Script principal ----------------
 # Initilisation d'une partie
-
+init_game()
 # Boucler pour lancer 4 manches
+nbr_round=0
 
+while nbr_round <=4:
     # Distribution des cartes pour chaque manche
-
+    lst_game, lst_player_1, lst_player_2 = to_deal(1)
     # Boucler tant que les joueurs possèdent encore des cartes en main et qu'ils n'ont pas tous les 2 pris de cartes sur la table
-        
+
         # Ordre des tours de jeu en fonction du joueur qui coommence la manche
         
 
         # Boucler pour les 2 joueurs
 
             # Afficher le jeu
-            
+    to_play(lst_game, num_player, lst_player, lst_collecting_cards, player_take)
             # Faire jouer un joueur
             
 
     # Remettre la drapeau take des players False
-
+    player_take = False
 
 #-------------------- Fin de partie ----------------
 # regrouper les cartes des joueurs pour simplifier le calcul des points
-
+get_group_cards(lst_collecting_cards)
 # Calcul des points pour les 2 joueurs
-
+get_scoring(group_cards_1, group_cards_2)
 # en fonction du nombre de points des joueurs on renvoie le vainqueur ou on départage en cas d'égalité
+get_winner(score_player_1, score_player_2, group_cards_1, group_cards_2)
