@@ -397,49 +397,49 @@ def end_game(num_player):
     exit()
 
 #-------------------- Initialisation de mon dictionnaire players ----------------
-players = {"lst_player_1" : [], "lst_player_2" : [], "lst_collecting_cards_1" : [], "lst_collecting_cards_2" : [], "take_player_1": False, "take_player_2": False}
+# players = {"lst_player_1" : [], "lst_player_2" : [], "lst_collecting_cards_1" : [], "lst_collecting_cards_2" : [], "take_player_1": False, "take_player_2": False}
 
-#-------------------- Script principal ----------------
-# Initilisation d'une partie
-init_game()
+# #-------------------- Script principal ----------------
+# # Initilisation d'une partie
+# init_game()
 
-# Boucler pour lancer 4 manches
-for i in range(4):
+# # Boucler pour lancer 4 manches
+# for i in range(4):
     
-    # Distribution des cartes pour chaque manche
-    to_deal(1)
+#     # Distribution des cartes pour chaque manche
+#     to_deal(1)
     
-    # Boucler tant que les joueurs possèdent encore des cartes en main et qu'ils n'ont pas tous les 2 pris de cartes sur la table
-    while len(players["lst_player_1"]) > 0 or len(players["lst_player_2"]) > 0 or players["take_player_1"] == False or players["take_player_2"] == False:
+#     # Boucler tant que les joueurs possèdent encore des cartes en main et qu'ils n'ont pas tous les 2 pris de cartes sur la table
+#     while len(players["lst_player_1"]) > 0 or len(players["lst_player_2"]) > 0 or players["take_player_1"] == False or players["take_player_2"] == False:
 
-        # Ordre des tours de jeu en fonction du joueur qui coommence la manche
-        # player_order = get_player_order()
+#         # Ordre des tours de jeu en fonction du joueur qui coommence la manche
+#         # player_order = get_player_order()
 
-        # Boucler pour les 2 joueurs
-        for player in players:
-            # Afficher le jeu
-            display_game()
+#         # Boucler pour les 2 joueurs
+#         for player in players:
+#             # Afficher le jeu
+#             display_game()
 
-            # Faire jouer un joueur
-            to_play()
+#             # Faire jouer un joueur
+#             to_play()
 
-# Remettre la drapeau take des players False
-players["take_player_1"] = False
-players["take_player_2"] = False
+# # Remettre la drapeau take des players False
+# players["take_player_1"] = False
+# players["take_player_2"] = False
 
 
-#-------------------- Fin de partie ----------------
-# regrouper les cartes des joueurs pour simplifier le calcul des points
-get_group_cards()
+# #-------------------- Fin de partie ----------------
+# # regrouper les cartes des joueurs pour simplifier le calcul des points
+# get_group_cards()
 
-# Calcul des points pour les 2 joueurs
-player_1_points = get_scoring(players["player_1"])
-player_2_points = get_scoring(players["player_2"])
+# # Calcul des points pour les 2 joueurs
+# player_1_points = get_scoring(players["player_1"])
+# player_2_points = get_scoring(players["player_2"])
 
-# en fonction du nombre de points des joueurs on renvoie le vainqueur ou on départage en cas d'égalité
-if group_cards_1 > player_2_points:
-    print("Le joueur 1 a gagné !")
-elif player_2_points > player_1_points:
-    print("Le joueur 2 a gagné !")
-else:
-    print("Match nul !")
+# # en fonction du nombre de points des joueurs on renvoie le vainqueur ou on départage en cas d'égalité
+# if group_cards_1 > player_2_points:
+#     print("Le joueur 1 a gagné !")
+# elif player_2_points > player_1_points:
+#     print("Le joueur 2 a gagné !")
+# else:
+#     print("Match nul !")
